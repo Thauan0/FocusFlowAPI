@@ -21,14 +21,14 @@
     --input-bg: #fff;
     --table-header-bg: #f8f8f8;
     --table-row-border: #eee;
-    --todo-item-bg: #f9f9f9; /* Mantido para referência, não usado diretamente com tabela */
+    --todo-item-bg: #f9f9f9; /* Mantido para referência */
     --todo-completed-text: #95a5a6;
     --complete-btn-color: #bdc3c7;
     --complete-btn-done-color: #2ecc71;
     --delete-btn-color: #e74c3c;
 
     /* Transição suave para todas as propriedades de cor e fundo */
-    --theme-transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    --theme-transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* ****** DEFINIÇÃO DAS VARIÁVEIS PARA O MODO ESCURO ****** */
@@ -59,7 +59,7 @@ body.dark-mode {
     --delete-btn-color: #e86050;
 }
 
-/* ****** APLICANDO AS VARIÁVEIS AOS ESTILOS EXISTENTES ****** */
+/* ****** ESTILOS BASE ****** */
 * {
     margin: 0;
     padding: 0;
@@ -71,12 +71,14 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
-    padding: 20px;
+    padding: 20px; /* Espaçamento geral */
     transition: var(--theme-transition);
+    min-height: 100vh; /* Garante que o body ocupe a altura toda */
 }
 
 .container {
-    max-width: 800px;
+    max-width: 800px; /* Largura máxima do conteúdo */
+    width: 100%; /* Ocupa toda a largura disponível até o max-width */
     margin: 20px auto;
     background-color: var(--container-bg);
     padding: 30px;
@@ -86,37 +88,46 @@ body {
 }
 
 header {
-    position: relative;
+    position: relative; /* Necessário para posicionar o botão de tema */
     margin-bottom: 30px;
+    padding-bottom: 10px; /* Espaço para o botão não colar no h2 */
+    border-bottom: 2px solid var(--border-color);
+    transition: border-color 0.3s ease; /* Transição apenas na borda */
 }
 
 h1 {
     color: var(--heading-color);
     text-align: center;
-    transition: var(--theme-transition);
+    margin-bottom: 10px; /* Espaço abaixo do título */
+    font-size: 2.2em; /* Tamanho de fonte base para h1 */
+    transition: color 0.3s ease;
+    /* Adicionado word-break para evitar que palavras muito longas quebrem o layout */
+    word-break: break-word;
 }
 
 h2 {
     color: var(--subheading-color);
     margin-bottom: 15px;
-    border-bottom: 2px solid var(--border-color);
+    /* Removida borda daqui, movida para o header */
     padding-bottom: 5px;
-    transition: var(--theme-transition);
+    font-size: 1.6em; /* Tamanho de fonte base para h2 */
+    transition: color 0.3s ease;
 }
 
 /* Estilo para o botão de tema */
 .btn-theme {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 0; /* Alinhado ao topo do header */
+    right: 0; /* Alinhado à direita do header */
     background-color: var(--container-bg);
     color: var(--subheading-color);
     border: 1px solid var(--border-color);
     padding: 5px 10px;
     font-size: 0.8em;
+    border-radius: 4px;
+    cursor: pointer;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    /* Herda a transição de .btn, mas adicionamos explícito */
-    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .btn-theme:hover {
     background-color: var(--bg-color);
@@ -127,13 +138,14 @@ body.dark-mode .btn-theme {
      box-shadow: 0 1px 3px rgba(255,255,255,0.1);
 }
 
-
 .card {
     background-color: var(--container-bg);
     padding: 20px;
     margin-bottom: 25px;
     border-radius: 6px;
     transition: var(--theme-transition);
+    /* Adicionado overflow hidden caso algum conteúdo interno tente escapar */
+    overflow: hidden;
 }
 
 /* Seção da API */
@@ -146,14 +158,16 @@ body.dark-mode .btn-theme {
     border-radius: 4px;
     min-height: 60px;
     font-style: italic;
-    opacity: 0;
-    transform: translateY(10px);
+    opacity: 0; /* Para animação JS */
+    transform: translateY(10px); /* Para animação JS */
+    /* Permite quebra de palavras longas */
     overflow-wrap: break-word;
     word-wrap: break-word;
-    max-height: 150px;
+    max-height: 150px; /* Limita altura e adiciona scroll se necessário */
     overflow-y: auto;
-    transition: var(--theme-transition);
+    transition: var(--theme-transition), opacity 0.5s ease, transform 0.5s ease; /* Adicionada transição de opacidade/transform */
 }
+/* Estilo específico para erro no dark mode */
 body.dark-mode .api-display-box span[style*="color: #e74c3c;"] {
     color: #ff7060 !important;
 }
@@ -162,7 +176,7 @@ body.dark-mode .api-display-box span[style*="color: #e74c3c;"] {
 .api-buttons {
     display: flex;
     gap: 10px;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Permite que os botões quebrem linha */
 }
 
 /* Estilo geral dos botões */
@@ -175,6 +189,7 @@ body.dark-mode .api-display-box span[style*="color: #e74c3c;"] {
     cursor: pointer;
     font-size: 0.95em;
     transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+    text-align: center; /* Garante texto centralizado */
 }
 
 .btn:hover {
@@ -194,7 +209,7 @@ body.dark-mode .api-display-box span[style*="color: #e74c3c;"] {
 }
 
 #todo-input {
-    flex-grow: 1;
+    flex-grow: 1; /* Ocupa o espaço disponível */
     padding: 10px;
     border: 1px solid var(--input-border);
     background-color: var(--input-bg);
@@ -208,49 +223,96 @@ body.dark-mode .api-display-box span[style*="color: #e74c3c;"] {
     opacity: 0.8;
 }
 
-
 .btn-add {
     background-color: var(--btn-add-bg);
+    /* flex-shrink: 0; /* Impede que o botão encolha */
 }
 
 .btn-add:hover {
     background-color: var(--btn-add-hover-bg);
 }
 
+/* ------ Wrapper Responsivo para Tabela ------ */
+/* !!! IMPORTANTE: Envolva sua <table> com <div class="table-responsive-wrapper"> no HTML !!! */
+.table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Habilita scroll horizontal se necessário */
+    margin-bottom: 15px; /* Espaço abaixo */
+    -webkit-overflow-scrolling: touch; /* Scroll suave em iOS */
+    border: 1px solid var(--border-color); /* Borda sutil opcional */
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+/* Estilo opcional para a barra de rolagem */
+.table-responsive-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+.table-responsive-wrapper::-webkit-scrollbar-track {
+    background: var(--bg-color);
+    border-radius: 4px;
+}
+.table-responsive-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 4px;
+    border: 2px solid var(--bg-color); /* Cria um efeito de "espaço" */
+}
+body.dark-mode .table-responsive-wrapper::-webkit-scrollbar-thumb {
+     background-color: var(--subheading-color);
+     border-color: var(--bg-color);
+}
+/* --------------------------------------------- */
+
+
 /* Tabela To-Do */
 .todo-table {
-    width: 100%;
+    width: 100%; /* Ocupa a largura do wrapper */
+    min-width: 550px; /* Largura mínima antes de o scroll aparecer - ajuste conforme necessário */
     border-collapse: collapse;
-    margin-top: 20px;
+    /* Removido margin-top, pois o wrapper já tem margin-bottom */
 }
 
 .todo-table th, .todo-table td {
     padding: 12px 10px;
     text-align: left;
     border-bottom: 1px solid var(--table-row-border);
-    transition: var(--theme-transition);
+    /* Vertical align para melhor alinhamento, especialmente com botões */
+    vertical-align: middle;
+    transition: var(--theme-transition), background-color 0.2s ease; /* Adicionado transição de fundo no hover */
+    /* Garante que texto longo possa quebrar dentro da célula */
+     word-break: break-word;
 }
 
 .todo-table th {
     background-color: var(--table-header-bg);
     font-weight: 600;
     color: var(--subheading-color);
+    white-space: nowrap; /* Impede quebra de linha nos cabeçalhos */
 }
 
 .todo-table tbody tr {
-    opacity: 0;
-    transform: translateY(15px);
-    /* A transição de cor será aplicada à célula td */
+    opacity: 0; /* Para animação JS */
+    transform: translateY(15px); /* Para animação JS */
+    /* A transição de cor será aplicada à célula td/tr */
+    transition: background-color 0.2s ease, opacity 0.5s ease, transform 0.5s ease;
 }
 
+/* Efeito hover na linha */
 .todo-table tbody tr:hover {
-    background-color: var(--bg-color);
+    background-color: var(--bg-color); /* Usa a cor de fundo do body para destaque sutil */
 }
 
-.todo-table tbody tr.completed td:nth-child(2) {
+/* Linha completada */
+.todo-table tbody tr.completed td:nth-child(2) { /* Assumindo que a tarefa está na 2ª coluna */
     text-decoration: line-through;
     color: var(--todo-completed-text);
     font-style: italic;
+}
+
+/* Coluna de Ações */
+.todo-table td.actions {
+    text-align: right; /* Alinha botões à direita */
+    white-space: nowrap; /* Impede que os botões quebrem linha entre si */
 }
 
 .todo-table .actions button {
@@ -258,11 +320,15 @@ body.dark-mode .api-display-box span[style*="color: #e74c3c;"] {
     border: none;
     cursor: pointer;
     font-size: 1.1em;
-    margin-left: 5px;
+    margin-left: 8px; /* Espaçamento entre botões */
     padding: 5px;
     transition: color 0.2s ease, transform 0.2s ease;
-    vertical-align: middle;
+    vertical-align: middle; /* Alinha com o texto */
 }
+.todo-table .actions button:first-child {
+    margin-left: 0; /* Remove margem do primeiro botão */
+}
+
 
 .todo-table .actions .complete-btn {
     color: var(--complete-btn-color);
@@ -274,10 +340,133 @@ body.dark-mode .api-display-box span[style*="color: #e74c3c;"] {
     color: var(--complete-btn-done-color);
     transform: scale(1.2);
 }
+
 .todo-table .actions .delete-btn {
     color: var(--delete-btn-color);
 }
 .todo-table .actions .delete-btn:hover {
-    filter: brightness(0.8);
+    /* filter: brightness(0.8); /* Pode escurecer demais no dark mode */
+    color: color-mix(in srgb, var(--delete-btn-color) 80%, black); /* Escurece um pouco a cor */
     transform: scale(1.2);
+}
+body.dark-mode .todo-table .actions .delete-btn:hover {
+     color: color-mix(in srgb, var(--delete-btn-color) 85%, white); /* Clareia um pouco a cor no dark mode */
+}
+
+
+/* ****** MEDIA QUERIES PARA RESPONSIVIDADE ****** */
+
+/* Telas médias (tablets e menores) */
+@media (max-width: 768px) {
+    body {
+        padding: 15px; /* Menos padding no body */
+    }
+
+    .container {
+        padding: 20px; /* Menos padding no container */
+        margin: 15px auto;
+    }
+
+    h1 {
+        font-size: 2em; /* Título ligeiramente menor */
+    }
+
+    h2 {
+        font-size: 1.4em; /* Subtítulo ligeiramente menor */
+    }
+
+    .btn {
+        padding: 9px 16px; /* Botões ligeiramente menores */
+        font-size: 0.9em;
+    }
+
+     .btn-theme {
+        padding: 4px 8px;
+        font-size: 0.75em;
+     }
+
+    .api-buttons {
+        gap: 8px; /* Menor espaço entre botões API */
+    }
+
+    .todo-table th, .todo-table td {
+        padding: 10px 8px; /* Menos padding nas células */
+    }
+}
+
+
+/* Telas pequenas (smartphones) */
+@media (max-width: 600px) {
+    body {
+        padding: 10px; /* Ainda menos padding */
+        line-height: 1.5; /* Ajuste opcional de line-height */
+    }
+
+    .container {
+        padding: 15px; /* Ainda menos padding */
+        margin: 10px auto;
+        border-radius: 6px; /* Borda ligeiramente menor */
+    }
+
+    header {
+        margin-bottom: 20px;
+        padding-bottom: 5px;
+    }
+
+    h1 {
+        font-size: 1.7em;
+        /* Adiciona padding à direita para não colidir com o botão de tema absoluto */
+        padding-right: 55px; /* Ajuste conforme o tamanho do botão */
+        text-align: left; /* Alinha à esquerda para dar espaço ao botão */
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+
+    .btn-theme {
+        top: -5px; /* Ajuste fino da posição do botão de tema */
+        right: 0;
+        /* Opcional: Aumentar um pouco o botão para toque */
+        padding: 5px 9px;
+    }
+
+    .card {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .api-display-box {
+        padding: 12px;
+        min-height: 50px;
+    }
+
+    /* Empilha o formulário de To-Do */
+    .todo-form {
+        flex-direction: column;
+        align-items: stretch; /* Faz o botão ocupar a largura toda */
+        gap: 8px;
+    }
+
+    #todo-input {
+        font-size: 0.95em;
+        /* Remove flex-grow já que está em coluna */
+        /* margin-bottom: 8px;  gap já faz o espaçamento */
+    }
+
+    .btn-add {
+        width: 100%; /* Botão ocupa largura total */
+    }
+
+    /* Ajustes finos na tabela e botões de ação */
+    .todo-table th, .todo-table td {
+        padding: 8px 6px;
+        font-size: 0.9em; /* Reduzir fonte na tabela se necessário */
+    }
+
+    .todo-table .actions button {
+        font-size: 1em; /* Pode reduzir um pouco se necessário */
+        margin-left: 5px;
+        padding: 4px;
+    }
 }
