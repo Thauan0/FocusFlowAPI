@@ -1,0 +1,38 @@
+{
+  "name": "focusflow-api", 
+  "version": "1.0.0",
+  "description": "API utilitária para foco e produtividade pessoal, oferecendo citações, técnicas e sugestões de pausa.",
+  "main": "src/server.js",
+  "type": "module", 
+  "scripts": {
+    "start": "node src/server.js", 
+    "dev": "nodemon src/server.js", 
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thauan0/FocusFlowAPI.git"
+  },
+  "keywords": [ 
+    "api",
+    "focus",
+    "productivity",
+    "motivation",
+    "utility",
+    "node",
+    "express"
+  ],
+  "author": "Thauan0", 
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thauan0/FocusFlowAPI/issues"
+  },
+  "homepage": "https://github.com/Thauan0/FocusFlowAPI#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2" 
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"    
+  }
+}
