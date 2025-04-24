@@ -1,6 +1,4 @@
-// src/controllers/focusController.js
 
-// 1. Importar os dados e a função utilitária
 import { quotes } from '../data/quotes.js';
 import { techniques } from '../data/techniques.js';
 import { breakSuggestions } from '../data/breaks.js';
@@ -20,7 +18,6 @@ export const getRandomQuote = (req, res) => {
         if (randomQuote) {
             res.status(200).json(randomQuote);
         } else {
-            // Isso só aconteceria se o array 'quotes' estivesse vazio
             res.status(404).json({ message: 'Nenhuma citação encontrada.' });
         }
     } catch (error) {
@@ -84,7 +81,6 @@ export const getDefaultPomodoroParams = (req, res) => {
         };
         res.status(200).json(pomodoroDefaults);
     } catch (error) {
-        // É muito improvável que haja erro aqui, mas por segurança
         console.error("Erro em getDefaultPomodoroParams:", error); // Manter log de erro
         res.status(500).json({ message: 'Erro interno ao buscar parâmetros Pomodoro.' });
     }
