@@ -160,4 +160,4 @@ FocusFlowAPI/
 ## Autor ✒️
 
 *   **Thauan** - [GitHub: Thauan0](https://github.com/Thauan0)
-    *   *(Sinta-se à vontade para adicionar seu LinkedIn ou outros links)*
+    *   *www.linkedin.com/in/thauan-carneiro-0428th*
