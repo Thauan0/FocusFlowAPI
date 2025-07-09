@@ -1,22 +1,13 @@
-// src/app.js
+// src/server.js (VERSÃO FINAL E CORRETA)
 
-import express from 'express';
-import cors from 'cors'; // <-- 1. IMPORTAR O CORS AQUI
-import routes from './routes/index.js'; // Supondo que suas rotas estão aqui
+// A importação do 'app' também precisa do caminho relativo './'.
+import app from './app.js';
 
-const app = express();
+const PORT = process.env.PORT || 3000;
 
-// MIDDLEWARES
-app.use(cors()); // <-- 2. USAR O CORS COMO MIDDLEWARE GLOBAL AQUI
-app.use(express.json()); // Middleware para interpretar JSON
-
-// ROTAS
-app.use('/api', routes); // Usando suas rotas
-
-// Middleware para tratamento de erros (opcional, mas boa prática)
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Algo deu errado!');
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor FocusFlow API rodando na porta ${PORT}`);
+}).on('error', (err) => {
+    console.error('!!! ERRO ao iniciar o servidor:', err);
+    process.exit(1);
 });
-
-export default app;
