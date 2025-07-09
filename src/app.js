@@ -1,8 +1,5 @@
-// src/app.js (VERSÃO FINAL E CORRETA)
-
 import express from 'express';
 import cors from 'cors';
-// O './' é crucial aqui. Garante que o Node.js procure na mesma pasta.
 import focusRoutes from './routes/focusRoutes.js'; 
 
 const app = express();
@@ -10,14 +7,19 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5500',
   'http://127.0.0.1:5500',
-  'https://thauan0.github.io',
   'http://localhost:3000',
-  'https://focusflow-next-ubpe.vercel.app'  // <-- Adicionado domínio da Vercel
+  'https://thauan0.github.io',
+  'https://focusflow-next-ubpe.vercel.app',
+  'https://focusflow-next-1e57-ixlwlj225-thauan0s-projects.vercel.app' // <- Adicionado domínio atual da Vercel
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('.vercel.app') // <- Permite qualquer subdomínio da Vercel (opcional, seguro para projetos próprios)
+    ) {
       callback(null, true);
     } else {
       console.warn(`CORS blocked origin: ${origin}`);
@@ -35,7 +37,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api', focusRoutes);
 
-// --- Middlewares de Erro (seu código aqui está perfeito) ---
+// --- Middlewares de Erro ---
 app.use('/api', (req, res, next) => {
     res.status(404).json({ message: 'Endpoint da API não encontrado.' });
 });
