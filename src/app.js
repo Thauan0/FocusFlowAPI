@@ -7,14 +7,12 @@ import focusRoutes from './routes/focusRoutes.js';
 
 const app = express();
 
-// --- Middlewares ---
-
-// Sua lista de origens permitidas está ótima, incluindo o localhost:3000.
 const allowedOrigins = [
   'http://localhost:5500',
   'http://127.0.0.1:5500',
   'https://thauan0.github.io',
-  'http://localhost:3000' 
+  'http://localhost:3000',
+  'https://focusflow-next-ubpe.vercel.app'  // <-- Adicionado domínio da Vercel
 ];
 
 app.use(cors({
@@ -33,7 +31,7 @@ app.use(express.json());
 
 // --- Rotas ---
 app.get('/', (req, res) => {
-    res.status(200).send('<h1>FocusFlow API</h1><p>Bem-vindo! Use as rotas /api/*</p>');
+    res.status(200).send('<h1>Focus API</h1><p>Bem-vindo! Use as rotas /api/*</p>');
 });
 app.use('/api', focusRoutes);
 
