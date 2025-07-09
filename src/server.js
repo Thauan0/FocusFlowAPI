@@ -1,19 +1,22 @@
-// src/server.js
-// import 'dotenv/config'; // Descomente se for usar variáveis de ambiente .env
-import app from './app.js';
+// src/app.js
 
-const PORT = process.env.PORT || 3000;
+import express from 'express';
+import cors from 'cors'; // <-- 1. IMPORTAR O CORS AQUI
+import routes from './routes/index.js'; // Supondo que suas rotas estão aqui
 
-try {
-    app.listen(PORT, () => {
-        // Mensagens essenciais de inicialização
-        console.log(`🚀 Servidor FocusFlow API rodando na porta ${PORT}`);
-        console.log(`🔗 Acesse: http://localhost:${PORT}`);
-    }).on('error', (err) => { // Listener para erros no listen
-        console.error('!!! ERRO ao iniciar o servidor:', err); // Manter log de erro de inicialização
-        process.exit(1); // Sair se não conseguir iniciar
-    });
-} catch (error) {
-    console.error("!!! ERRO CATASTRÓFICO no bloco try/catch:", error); // Manter log de erro catastrófico
-    process.exit(1); // Sair em caso de erro grave
-}
+const app = express();
+
+// MIDDLEWARES
+app.use(cors()); // <-- 2. USAR O CORS COMO MIDDLEWARE GLOBAL AQUI
+app.use(express.json()); // Middleware para interpretar JSON
+
+// ROTAS
+app.use('/api', routes); // Usando suas rotas
+
+// Middleware para tratamento de erros (opcional, mas boa prática)
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Algo deu errado!');
+});
+
+export default app;
